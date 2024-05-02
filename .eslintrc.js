@@ -21,5 +21,13 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'no-plusplus': 'off',
+    'comma-dangle': 'off',
+    'no-useless-constructor': 'off',
+    'no-param-reassign': 'off',
+    'no-undef': 'off',
+    'operator-linebreak': 'off',
+    'consistent-return': 'off',
+    'arrow-body-style': 'off',
   },
 };
