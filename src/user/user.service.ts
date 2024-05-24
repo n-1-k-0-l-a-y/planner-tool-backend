@@ -5,10 +5,21 @@ import { PrismaService } from 'src/prisma.service';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async getById(id: string) {
+  getById(id: string) {
     return this.prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        tasks: true,
+      },
+    });
+  }
+
+  getByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email,
       },
       include: {
         tasks: true,
