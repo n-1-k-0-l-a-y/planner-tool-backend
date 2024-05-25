@@ -66,7 +66,7 @@ export class AuthService {
     return user;
   }
 
-  addRefreshTokenToResponce(res: Response, refreshToken: string) {
+  addRefreshTokenToResponse(res: Response, refreshToken: string) {
     const expiresIn = new Date();
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
 
@@ -79,7 +79,7 @@ export class AuthService {
     });
   }
 
-  removeRefreshTokenToResponce(res: Response, refreshToken: string) {
+  removeRefreshTokenToResponse(res: Response, refreshToken: string) {
     const expiresIn = new Date();
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
 

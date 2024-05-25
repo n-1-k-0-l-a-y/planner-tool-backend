@@ -20,7 +20,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
     const { refreshToken, ...response } = await this.authService.login(dto);
-    this.authService.addRefreshTokenToResponce(res, refreshToken);
+    this.authService.addRefreshTokenToResponse(res, refreshToken);
 
     return response;
   }
@@ -33,7 +33,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const { refreshToken, ...response } = await this.authService.register(dto);
-    this.authService.addRefreshTokenToResponce(res, refreshToken);
+    this.authService.addRefreshTokenToResponse(res, refreshToken);
 
     return response;
   }
