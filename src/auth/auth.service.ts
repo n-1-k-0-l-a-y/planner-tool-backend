@@ -44,6 +44,19 @@ export class AuthService {
     };
   }
 
+  async getNewTokens(refreshToken: string) {
+    const result = await this.jwt.verifyAsync(refreshToken);
+    if (!result) throw new UnauthorizedException('Invalin refresh token');
+
+    const { password, ...user } = await this.userService.getById(result.id);
+    const tokens = await this.issueTokens(user.id);
+
+    return {
+      user,
+      ...tokens,
+    };
+  }
+
   private issueTokens(userId: string) {
     const data = { id: userId };
     const accessToken = this.jwt.sign(data, {
