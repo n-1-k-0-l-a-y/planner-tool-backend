@@ -46,10 +46,10 @@ export class AuthService {
 
   async getNewTokens(refreshToken: string) {
     const result = await this.jwt.verifyAsync(refreshToken);
-    if (!result) throw new UnauthorizedException('Invalin refresh token');
+    if (!result) throw new UnauthorizedException('Invalid refresh token');
 
     const { password, ...user } = await this.userService.getById(result.id);
-    const tokens = await this.issueTokens(user.id);
+    const tokens = this.issueTokens(user.id);
 
     return {
       user,
@@ -83,25 +83,30 @@ export class AuthService {
     const expiresIn = new Date();
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
 
+    const isProduction = process.env.NODE_ENV === 'production';
+
     res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {
       httpOnly: true,
       domain: 'localhost',
       expires: expiresIn,
-      secure: true,
-      sameSite: 'none', // lax if prod
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
     });
+
+    console.log('Refresh token set in cookie:', refreshToken);
   }
 
   removeRefreshTokenFromResponse(res: Response) {
-    const expiresIn = new Date();
-    expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
+    const isProduction = process.env.NODE_ENV === 'production';
 
     res.cookie(this.REFRESH_TOKEN_NAME, '', {
       httpOnly: true,
       domain: 'localhost',
       expires: new Date(0),
-      secure: true,
-      sameSite: 'none', // lax if prod
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
     });
+
+    console.log('Refresh token removed from cookie');
   }
 }

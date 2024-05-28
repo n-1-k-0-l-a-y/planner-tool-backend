@@ -24,6 +24,7 @@ export class AuthController {
     const { refreshToken, ...response } = await this.authService.login(dto);
     this.authService.addRefreshTokenToResponse(res, refreshToken);
 
+    console.log('Login response:', response);
     return response;
   }
 
@@ -37,6 +38,7 @@ export class AuthController {
     const { refreshToken, ...response } = await this.authService.register(dto);
     this.authService.addRefreshTokenToResponse(res, refreshToken);
 
+    console.log('Register response:', response);
     return response;
   }
 
@@ -49,6 +51,8 @@ export class AuthController {
     const refreshTokenFromCookies =
       req.cookies[this.authService.REFRESH_TOKEN_NAME];
 
+    console.log('Refresh token from cookies:', refreshTokenFromCookies);
+
     if (!refreshTokenFromCookies) {
       this.authService.removeRefreshTokenFromResponse(res);
       throw new UnauthorizedException('Refresh token not passed');
@@ -60,6 +64,7 @@ export class AuthController {
 
     this.authService.addRefreshTokenToResponse(res, refreshToken);
 
+    console.log('New tokens response:', response);
     return response;
   }
 
